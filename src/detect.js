@@ -1,7 +1,7 @@
 // Serialized by chrome.scripting.executeScript — must stay closure-free.
 // Runs in the page's MAIN world — a content script's isolated `window` can
 // never see globals like React / Shopify / wp, which is why they never matched.
-export function detectInPage(fps) {
+export async function detectInPage(fps) {
   const srcs = Array.from(
     document.querySelectorAll('script[src], link[href]'),
     e => e.src || e.href
@@ -13,7 +13,7 @@ export function detectInPage(fps) {
     if (key) metas[key] = (m.content || '').toLowerCase()
   }
 
-  // ponytail: 1MB cap keeps ~130 regexes cheap on huge pages; raise if a real miss shows up
+  // ponytail: 1MB cap keeps ~150 regexes cheap on huge pages; raise if a real miss shows up
   const html = document.documentElement.innerHTML.slice(0, 1_000_000)
   const cookies = document.cookie
 
@@ -26,6 +26,16 @@ export function detectInPage(fps) {
   }
   const props = Array.from(domProps).join(' ')
 
+  // Server headers (nginx, x-powered-by, cf-ray…) are the one signal the DOM can't show.
+  // Same-origin means no CORS filtering, so every header is readable — which is why this
+  // needs no host permission at all. HEAD keeps it to one bodyless request per popup open.
+  // ponytail: a page with `connect-src 'none'` just yields no header signals; acceptable.
+  const headers = new Map()
+  try {
+    const res = await fetch(location.href, { method: 'HEAD', redirect: 'follow' })
+    for (const [k, v] of res.headers) headers.set(k.toLowerCase(), v)
+  } catch {}
+
   const hasGlobal = g => {
     try { return window[g] !== undefined && window[g] !== null } catch { return false }
   }
@@ -35,6 +45,11 @@ export function detectInPage(fps) {
       (d.js || []).some(hasGlobal) ||
       (d.prop || []).some(p => new RegExp(p).test(props)) ||
       (d.script || []).some(p => new RegExp(p, 'i').test(srcs)) ||
+      (d.header || []).some(h => {
+        const value = headers.get(h.name)
+        // empty pattern = presence of the header is enough
+        return value !== undefined && (!h.pattern || new RegExp(h.pattern, 'i').test(value))
+      }) ||
       (d.meta || []).some(m => {
         const key = m.name.toLowerCase()
         // empty content = presence of the tag is enough

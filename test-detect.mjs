@@ -6,7 +6,7 @@ import { detectInPage } from './src/detect.js'
 const fingerprints = JSON.parse(readFileSync('./src/fingerprints.json', 'utf8'))
 
 // Minimal stand-in for the bits detectInPage touches.
-function fakePage({ srcs = [], metas = {}, html = '', cookie = '', globals = {}, domProps = [] }) {
+function fakePage({ srcs = [], metas = {}, html = '', cookie = '', globals = {}, domProps = [], headers = {} }) {
   const nodes = srcs.map(src => ({ src, href: '' }))
   const metaNodes = Object.entries(metas).map(([name, content]) => ({
     name, content, getAttribute: () => null,
@@ -19,13 +19,18 @@ function fakePage({ srcs = [], metas = {}, html = '', cookie = '', globals = {},
     cookie,
   }
   globalThis.window = globals
+  globalThis.location = { href: 'https://site.test/' }
+  globalThis.fetch = async () => ({ headers: Object.entries(headers) })
 }
 
-const names = page => (fakePage(page), detectInPage(fingerprints).map(t => t.name))
+const names = async page => {
+  fakePage(page)
+  return (await detectInPage(fingerprints)).map(t => t.name)
+}
 
 // The bug: every site was reported as Laravel, because a fingerprint with an
 // empty meta `content` asked `val !== undefined` on a value defaulted to ''.
-const wordpress = names({
+const wordpress = await names({
   srcs: ['https://site.test/wp-content/themes/x/app.js'],
   metas: { generator: 'WordPress 6.5', 'csrf-token': 'abc123' },
   html: '<div class="wp-block"></div>',
@@ -34,18 +39,18 @@ assert.ok(wordpress.includes('WordPress'), 'WordPress should be detected')
 assert.ok(!wordpress.includes('Laravel'), 'Laravel must NOT match a csrf-token meta')
 
 // A bare page matches nothing at all.
-assert.deepEqual(names({ html: '<html><body>hi</body></html>' }), [])
+assert.deepEqual(await names({ html: '<html><body>hi</body></html>' }), [])
 
 // Meta presence-only fingerprints still work when a fingerprint asks for content.
-assert.ok(names({ metas: { generator: 'Astro v4' } }).includes('Astro'))
+assert.ok((await names({ metas: { generator: 'Astro v4' } })).includes('Astro'))
 
 // MAIN-world globals are what the old content script could never see.
-assert.ok(names({ globals: { Shopify: {} } }).includes('Shopify'))
-assert.ok(names({ cookie: 'laravel_session=xyz' }).includes('Laravel'))
+assert.ok((await names({ globals: { Shopify: {} } })).includes('Shopify'))
+assert.ok((await names({ cookie: 'laravel_session=xyz' })).includes('Laravel'))
 
 // Next.js shipped a `polyfills-<hash>.js` chunk, which the old Angular script
 // pattern matched — every Next.js site was also reported as Angular.
-const next = names({
+const next = await names({
   srcs: [
     'https://site.test/_next/static/chunks/polyfills-c67a75d1b6f99dc8.js',
     'https://site.test/_next/static/chunks/main-app-abc.js',
@@ -59,7 +64,7 @@ assert.ok(!next.includes('Angular'), 'Angular must NOT match a Next.js polyfills
 
 // A Vite-built React app: no window.React, no react-dom in any URL. DOM fiber
 // props are the only thing left to go on — this used to detect nothing at all.
-const viteReact = names({
+const viteReact = await names({
   srcs: ['https://site.test/assets/index-DlbQ6a5s.js'],
   html: '<script type="module" crossorigin src="/assets/index-DlbQ6a5s.js"></script><div id="root"></div>',
   domProps: ['__reactContainer$xy9'],
@@ -69,12 +74,36 @@ assert.ok(viteReact.includes('Vite'), 'Vite should be detected from its build ou
 assert.ok(!viteReact.includes('Angular'), 'no Angular on a React page')
 
 // Real Angular still matches, on __ngContext__ rather than a filename.
-assert.ok(names({ domProps: ['__ngContext__'] }).includes('Angular'))
+assert.ok((await names({ domProps: ['__ngContext__'] })).includes('Angular'))
+
+// Server headers replaced the webRequest background worker — same signals,
+// read from a same-origin HEAD instead of a browser-wide request listener.
+const served = await names({
+  headers: { Server: 'nginx/1.24.0', 'X-Powered-By': 'PHP/8.2.1', 'cf-ray': '8a1b2c3d' },
+})
+assert.ok(served.includes('Nginx'), 'Nginx from the server header')
+assert.ok(served.includes('PHP'), 'PHP from x-powered-by')
+assert.ok(served.includes('Cloudflare'), 'Cloudflare from a presence-only cf-ray header')
+assert.ok(!served.includes('Apache'), 'nginx is not Apache')
+
+// A header fingerprint must not fire on an absent header.
+assert.ok(!(await names({ headers: {} })).includes('Nginx'))
+
+// Header detection degrades quietly when the page's CSP blocks fetch.
+globalThis.fetch = async () => { throw new Error('blocked by CSP') }
+globalThis.document = {
+  querySelectorAll: () => [],
+  documentElement: { innerHTML: '' },
+  cookie: '',
+}
+globalThis.window = {}
+assert.deepEqual(await detectInPage(fingerprints), [], 'a blocked fetch must not throw')
 
 // Every regex in the data file compiles.
 for (const fp of fingerprints) {
-  const { script = [], html = [], prop = [] } = fp.detect
+  const { script = [], html = [], prop = [], header = [] } = fp.detect
   for (const p of [...script, ...html, ...prop]) new RegExp(p, 'i')
+  for (const h of header) new RegExp(h.pattern || '', 'i')
 }
 
 console.log(`ok — ${fingerprints.length} fingerprints, all checks passed`)

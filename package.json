@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite build --watch",
     "build": "vite build",
-    "test": "node test-detect.mjs"
+    "test": "node test-detect.mjs",
+    "package": "npm run build && cd dist && powershell -NoProfile -Command \"Compress-Archive -Path * -DestinationPath ../stackpicker-$(node -p \\\"require('../package.json').version\\\").zip -Force\""
   },
   "devDependencies": {
     "@crxjs/vite-plugin": "^2.0.0-beta.23",

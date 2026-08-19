@@ -12,25 +12,21 @@ async function scan() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
   if (!tab?.id || !/^https?:/.test(tab.url || '')) return null
 
-  const [stored, injected] = await Promise.all([
-    chrome.storage.session.get(`hdr_${tab.id}`),
-    chrome.scripting
-      .executeScript({
-        target: { tabId: tab.id },
-        world: 'MAIN',
-        func: detectInPage,
-        args: [fingerprints],
-      })
-      .catch(() => null),
-  ])
+  // activeTab grants access to this one tab, granted by the click that opened
+  // this popup — no host permission, nothing runs until the user asks for it.
+  const injected = await chrome.scripting
+    .executeScript({
+      target: { tabId: tab.id },
+      world: 'MAIN',
+      func: detectInPage,
+      args: [fingerprints],
+    })
+    .catch(() => null)
 
-  const page = injected?.[0]?.result ?? []
-  const headers = stored[`hdr_${tab.id}`] ?? []
-
-  const seen = new Set()
-  const techs = [...page, ...headers].filter(t => !seen.has(t.name) && seen.add(t.name))
-
-  return { techs, hostname: new URL(tab.url).hostname.replace(/^www\./, '') }
+  return {
+    techs: injected?.[0]?.result ?? [],
+    hostname: new URL(tab.url).hostname.replace(/^www\./, ''),
+  }
 }
 
 function render(result) {
