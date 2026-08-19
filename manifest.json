@@ -19,6 +19,7 @@
       "128": "icon128.png"
     }
   },
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["scripting"],
+  "host_permissions": ["<all_urls>"],
   "minimum_chrome_version": "102"
 }

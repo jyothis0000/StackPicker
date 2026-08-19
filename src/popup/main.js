@@ -12,8 +12,8 @@ async function scan() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
   if (!tab?.id || !/^https?:/.test(tab.url || '')) return null
 
-  // activeTab grants access to this one tab, granted by the click that opened
-  // this popup — no host permission, nothing runs until the user asks for it.
+  // Runs under the <all_urls> host permission, but still only on demand:
+  // nothing is injected until the user opens this popup.
   const injected = await chrome.scripting
     .executeScript({
       target: { tabId: tab.id },
