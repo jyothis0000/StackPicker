@@ -1,10 +1,14 @@
-import fingerprints from '../fingerprints.json'
 import { detectInPage } from '../detect.js'
+
+// One file per first letter, the way Wappalyzer shards its dataset — glob them
+// all in so adding a technology never means touching an import list.
+const sharded = import.meta.glob('../technologies/*.json', { eager: true, import: 'default' })
+const fingerprints = Object.values(sharded).flat()
 
 const CATEGORY_ORDER = [
   'CMS', 'E-Commerce', 'Website Builder', 'JS Framework', 'JS Library', 'UI / CSS',
   'Backend Framework', 'Backend Language', 'Web Server', 'Hosting', 'CDN',
-  'Analytics', 'Marketing', 'Payment', 'Security', 'Search', 'Media',
+  'Analytics', 'Advertising', 'Marketing', 'Payment', 'Security', 'Search', 'Media',
   'Build Tool', 'Dev Tools',
 ]
 

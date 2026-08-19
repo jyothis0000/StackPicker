@@ -1,0 +1,10 @@
+[
+  { "name": "Yandex Metrica", "category": "Analytics", "color": "#FC3F1D",
+    "detect": { "script": ["mc\\.yandex\\.(ru|com)"] } },
+  { "name": "Yii", "category": "Backend Framework", "color": "#40B3E0",
+    "detect": { "script": ["/assets/[0-9a-f]{8}/yii"], "cookie": ["YII_CSRF_TOKEN"] } },
+  { "name": "Yotpo", "category": "Marketing", "color": "#0042E4",
+    "detect": { "js": ["yotpo"], "script": ["yotpo\\.com"] } },
+  { "name": "YouTube", "category": "Media", "color": "#FF0000",
+    "detect": { "html": ["youtube(-nocookie)?\\.com/embed"] } }
+]

@@ -1,9 +1,11 @@
 // node test-detect.mjs
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
 import { detectInPage } from './src/detect.js'
 
-const fingerprints = JSON.parse(readFileSync('./src/fingerprints.json', 'utf8'))
+const DIR = './src/technologies'
+const files = readdirSync(DIR).filter(f => f.endsWith('.json'))
+const fingerprints = files.flatMap(f => JSON.parse(readFileSync(`${DIR}/${f}`, 'utf8')))
 
 // Minimal stand-in for the bits detectInPage touches.
 function fakePage({ srcs = [], metas = {}, html = '', cookie = '', globals = {}, domProps = [], headers = {} }) {
@@ -99,11 +101,34 @@ globalThis.document = {
 globalThis.window = {}
 assert.deepEqual(await detectInPage(fingerprints), [], 'a blocked fetch must not throw')
 
-// Every regex in the data file compiles.
+// Newly added fingerprints, one per detection type, so the shards stay wired up.
+assert.ok((await names({ globals: { Highcharts: {} } })).includes('Highcharts'))
+assert.ok((await names({ html: '<div data-radix-portal></div>' })).includes('Radix UI'))
+assert.ok((await names({ headers: { Server: 'uvicorn' } })).includes('Uvicorn'))
+assert.ok((await names({ cookie: 'ci_session=abc' })).includes('CodeIgniter'))
+assert.ok((await names({ metas: { generator: 'Hugo 0.128' } })).includes('Hugo'))
+
+// Each shard holds only names starting with its own letter, and no name is
+// defined twice across files — a split dataset makes both easy to get wrong.
+const all = new Map()
+for (const f of files) {
+  const letter = f.replace('.json', '')
+  for (const fp of JSON.parse(readFileSync(`${DIR}/${f}`, 'utf8'))) {
+    const first = fp.name[0].toLowerCase()
+    assert.equal(/[a-z]/.test(first) ? first : '_', letter,
+      `${fp.name} is in ${f}, should be in ${/[a-z]/.test(first) ? first : '_'}.json`)
+    assert.ok(!all.has(fp.name), `${fp.name} is defined twice (${all.get(fp.name)} and ${f})`)
+    all.set(fp.name, f)
+  }
+}
+
+// Every regex in the data files compiles, and every entry is detectable at all.
 for (const fp of fingerprints) {
   const { script = [], html = [], prop = [], header = [] } = fp.detect
   for (const p of [...script, ...html, ...prop]) new RegExp(p, 'i')
   for (const h of header) new RegExp(h.pattern || '', 'i')
+  assert.ok(Object.keys(fp.detect).length, `${fp.name} has no detection rules`)
+  assert.match(fp.color, /^#[0-9A-Fa-f]{6}$/, `${fp.name} has a bad color`)
 }
 
-console.log(`ok — ${fingerprints.length} fingerprints, all checks passed`)
+console.log(`ok — ${fingerprints.length} technologies in ${files.length} files, all checks passed`)

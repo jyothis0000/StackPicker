@@ -1,0 +1,6 @@
+[
+  { "name": "X Pixel", "category": "Advertising", "color": "#000000",
+    "detect": { "js": ["twq"], "script": ["static\\.ads-twitter\\.com"] } },
+  { "name": "XenForo", "category": "CMS", "color": "#0E4D92",
+    "detect": { "js": ["XF"], "html": ["data-app=\"(public|forum)\"", "/styles/default/xenforo/"] } }
+]

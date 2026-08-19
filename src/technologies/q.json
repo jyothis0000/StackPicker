@@ -1,0 +1,12 @@
+[
+  { "name": "Quantcast", "category": "Analytics", "color": "#1F3A93",
+    "detect": { "script": ["quantserve\\.com"] } },
+  { "name": "Quasar", "category": "UI / CSS", "color": "#1976D2",
+    "detect": { "js": ["Quasar"], "html": ["\\bq-(layout|btn|page)\\b"] } },
+  { "name": "Quill", "category": "JS Library", "color": "#1E1E1E",
+    "detect": { "js": ["Quill"], "html": ["ql-editor"] } },
+  { "name": "Quora Pixel", "category": "Advertising", "color": "#B92B27",
+    "detect": { "script": ["q\\.quora\\.com/qevents"] } },
+  { "name": "Qwik", "category": "JS Framework", "color": "#AC7EF4",
+    "detect": { "html": ["q:container", "q:base"] } }
+]

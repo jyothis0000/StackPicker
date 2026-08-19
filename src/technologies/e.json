@@ -1,0 +1,22 @@
+[
+  { "name": "ECharts", "category": "JS Library", "color": "#AA344D",
+    "detect": { "js": ["echarts"] } },
+  { "name": "Ecwid", "category": "E-Commerce", "color": "#00A5E5",
+    "detect": { "js": ["Ecwid"], "script": ["app\\.ecwid\\.com"] } },
+  { "name": "Elastic APM", "category": "Dev Tools", "color": "#00BFB3",
+    "detect": { "js": ["elasticApm"] } },
+  { "name": "Element Plus", "category": "UI / CSS", "color": "#409EFF",
+    "detect": { "html": ["\\bel-(button|row|col|input)\\b"] } },
+  { "name": "Elementor", "category": "CMS", "color": "#92003B",
+    "detect": { "js": ["elementorFrontend"], "script": ["/elementor/assets/"], "html": ["elementor-widget-", "data-elementor-type"] } },
+  { "name": "Eleventy", "category": "JS Framework", "color": "#222222",
+    "detect": { "meta": [{"name": "generator", "content": "Eleventy"}] } },
+  { "name": "Ember.js", "category": "JS Framework", "color": "#E04E39",
+    "detect": { "js": ["Ember"], "html": ["id=\"ember[0-9]"] } },
+  { "name": "Emotion", "category": "JS Library", "color": "#D26AC2",
+    "detect": { "html": ["data-emotion="] } },
+  { "name": "Envoy", "category": "Web Server", "color": "#AC6199",
+    "detect": { "header": [{"name": "server", "pattern": "envoy"}] } },
+  { "name": "Express", "category": "Backend Framework", "color": "#259DFF",
+    "detect": { "cookie": ["connect.sid"], "header": [{"name": "x-powered-by", "pattern": "express"}] } }
+]
