@@ -28,7 +28,7 @@ export async function detectInPage(fps) {
 
   // Server headers (nginx, x-powered-by, cf-ray…) are the one signal the DOM can't show.
   // Same-origin means no CORS filtering, so every header is readable — which is why this
-  // it reads them as the page itself. HEAD keeps it to one bodyless request per popup open.
+  // needs no host permission at all. HEAD keeps it to one bodyless request per popup open.
   // ponytail: a page with `connect-src 'none'` just yields no header signals; acceptable.
   const headers = new Map()
   try {

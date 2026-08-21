@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>StackPicker — small promo tile</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      width: 440px;
+      height: 280px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 32px;
+      font-family: 'Segoe UI', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      color: #ECECF1;
+      background: radial-gradient(420px 300px at 18% 12%, #241F5C 0%, #0B0B0F 68%);
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255, 255, 255, .08) 1px, transparent 1px);
+      background-size: 18px 18px;
+      mask-image: linear-gradient(115deg, #000 0%, transparent 72%);
+    }
+
+    body::after {
+      content: '';
+      position: absolute;
+      right: -90px;
+      bottom: -120px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(236, 72, 153, .22), transparent 68%);
+    }
+
+    .row { position: relative; z-index: 2; display: flex; align-items: center; gap: 12px; }
+    .row img { width: 40px; height: 40px; border-radius: 10px; }
+    .row span { font-size: 25px; font-weight: 700; letter-spacing: -.6px; }
+
+    h1 {
+      position: relative;
+      z-index: 2;
+      margin-top: 20px;
+      font-size: 27px;
+      line-height: 1.2;
+      font-weight: 650;
+      letter-spacing: -.7px;
+    }
+
+    h1 em {
+      font-style: normal;
+      background: linear-gradient(94deg, #818CF8, #F472B6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    p {
+      position: relative;
+      z-index: 2;
+      margin-top: 13px;
+      font-size: 14.5px;
+      color: #A1A1B5;
+    }
+
+    .chips { position: relative; z-index: 2; margin-top: 18px; display: flex; gap: 7px; }
+
+    .chips i {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-style: normal;
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid rgba(255, 255, 255, .11);
+    }
+
+    .chips i::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--c);
+    }
+  </style>
+</head>
+<body>
+  <div class="row">
+    <img src="../public/icon128.png" alt="" />
+    <span>StackPicker</span>
+  </div>
+  <h1>See any site's <em>tech stack</em>.</h1>
+  <p>429 technologies. One click. Nothing tracked.</p>
+  <div class="chips">
+    <i style="--c:#61DAFB">React</i>
+    <i style="--c:#21759B">WordPress</i>
+    <i style="--c:#009639">Nginx</i>
+    <i style="--c:#F48120">Cloudflare</i>
+  </div>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>StackPicker — marquee promo tile</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      width: 1400px;
+      height: 560px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 80px;
+      padding: 0 96px;
+      font-family: 'Segoe UI', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      color: #ECECF1;
+      background: radial-gradient(1200px 620px at 14% 10%, #241F5C 0%, #0B0B0F 66%);
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255, 255, 255, .07) 1px, transparent 1px);
+      background-size: 24px 24px;
+      mask-image: linear-gradient(102deg, #000 0%, transparent 70%);
+    }
+
+    body::after {
+      content: '';
+      position: absolute;
+      right: -140px;
+      top: -160px;
+      width: 560px;
+      height: 560px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(236, 72, 153, .2), transparent 68%);
+    }
+
+    .copy { position: relative; z-index: 2; width: 640px; flex-shrink: 0; }
+
+    .row { display: flex; align-items: center; gap: 14px; margin-bottom: 26px; }
+    .row img { width: 46px; height: 46px; border-radius: 12px; }
+    .row span { font-size: 28px; font-weight: 700; letter-spacing: -.7px; }
+
+    h1 { font-size: 54px; line-height: 1.08; font-weight: 700; letter-spacing: -1.6px; }
+
+    h1 em {
+      font-style: normal;
+      background: linear-gradient(94deg, #818CF8, #F472B6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    p { margin-top: 20px; font-size: 19px; line-height: 1.5; color: #A1A1B5; max-width: 540px; }
+
+    /* Loose scatter of detected-technology chips, echoing the popup's own pills. */
+    .cloud {
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 11px;
+      align-content: center;
+    }
+
+    .cloud i {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-style: normal;
+      font-size: 14.5px;
+      font-weight: 500;
+      padding: 9px 15px;
+      border-radius: 11px;
+      background: rgba(255, 255, 255, .055);
+      border: 1px solid rgba(255, 255, 255, .11);
+      white-space: nowrap;
+    }
+
+    .cloud i::before {
+      content: '';
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: var(--c);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--c) 20%, transparent);
+    }
+  </style>
+</head>
+<body>
+  <div class="copy">
+    <div class="row">
+      <img src="../public/icon128.png" alt="" />
+      <span>StackPicker</span>
+    </div>
+    <h1>See any site's <em>tech stack</em> in one click.</h1>
+    <p>429 technologies across 20 categories — frameworks, CMS, servers, CDNs,
+      payments and analytics. No account, no tracking, nothing collected.</p>
+  </div>
+  <div class="cloud">
+    <i style="--c:#61DAFB">React</i>
+    <i style="--c:#0070F3">Next.js</i>
+    <i style="--c:#42B883">Vue.js</i>
+    <i style="--c:#DD0031">Angular</i>
+    <i style="--c:#FF3E00">Svelte</i>
+    <i style="--c:#21759B">WordPress</i>
+    <i style="--c:#96BF48">Shopify</i>
+    <i style="--c:#4353FF">Webflow</i>
+    <i style="--c:#FF2D20">Laravel</i>
+    <i style="--c:#0C4B33">Django</i>
+    <i style="--c:#38BDF8">Tailwind CSS</i>
+    <i style="--c:#7952B3">Bootstrap</i>
+    <i style="--c:#009639">Nginx</i>
+    <i style="--c:#D22128">Apache</i>
+    <i style="--c:#F48120">Cloudflare</i>
+    <i style="--c:#5E5E5E">Vercel</i>
+    <i style="--c:#00C7B7">Netlify</i>
+    <i style="--c:#635BFF">Stripe</i>
+    <i style="--c:#E37400">Google Analytics</i>
+    <i style="--c:#646CFF">Vite</i>
+    <i style="--c:#0769AD">jQuery</i>
+    <i style="--c:#8B6FC0">Sentry</i>
+  </div>
+</body>
+</html>
