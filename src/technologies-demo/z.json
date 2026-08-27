@@ -1,0 +1,4 @@
+[
+  { "name": "Zendesk", "category": "Marketing", "color": "#0A5C63",
+    "detect": { "js": ["zE", "zEmbed"], "script": ["static\\.zdassets\\.com"] } }
+]

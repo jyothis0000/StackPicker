@@ -1,0 +1,22 @@
+[
+  { "name": "Java", "category": "Backend Language", "color": "#F89820",
+    "detect": { "cookie": ["JSESSIONID"], "html": ["\\.jsp[\"?]"], "header": [{"name": "x-powered-by", "pattern": "servlet|jsp"}] } },
+  { "name": "Jekyll", "category": "JS Framework", "color": "#CC0000",
+    "detect": { "meta": [{"name": "generator", "content": "Jekyll"}] } },
+  { "name": "Jetty", "category": "Web Server", "color": "#4A90D9",
+    "detect": { "header": [{"name": "server", "pattern": "jetty"}] } },
+  { "name": "Joomla", "category": "CMS", "color": "#5091CD",
+    "detect": { "js": ["Joomla"], "script": ["/media/jui/js/", "/media/system/js/"], "meta": [{"name": "generator", "content": "Joomla"}], "html": ["/components/com_"] } },
+  { "name": "Jotform", "category": "Marketing", "color": "#FF6100",
+    "detect": { "script": ["jotform"] } },
+  { "name": "jQuery", "category": "JS Library", "color": "#0769AD",
+    "detect": { "js": ["jQuery"], "script": ["jquery[.-][0-9]", "jquery(\\.min)?\\.js", "/jquery@"] } },
+  { "name": "jsDelivr", "category": "CDN", "color": "#E84D3D",
+    "detect": { "script": ["cdn\\.jsdelivr\\.net"] } },
+  { "name": "jsPDF", "category": "JS Library", "color": "#E53935",
+    "detect": { "js": ["jspdf", "jsPDF"] } },
+  { "name": "Judge.me", "category": "Marketing", "color": "#3B7BBF",
+    "detect": { "script": ["judge\\.me"] } },
+  { "name": "JW Player", "category": "Media", "color": "#E23D3D",
+    "detect": { "js": ["jwplayer"] } }
+]

@@ -1,0 +1,20 @@
+[
+  { "name": "UIkit", "category": "UI / CSS", "color": "#2396F3",
+    "detect": { "js": ["UIkit"], "html": ["\\buk-(container|grid|button)\\b"] } },
+  { "name": "Umami", "category": "Analytics", "color": "#3F8EF7",
+    "detect": { "script": ["umami"] } },
+  { "name": "Umbraco", "category": "CMS", "color": "#3544B1",
+    "detect": { "html": ["/umbraco/"] } },
+  { "name": "Underscore.js", "category": "JS Library", "color": "#0371B5",
+    "detect": { "script": ["underscore([.-]min)?\\.js"] } },
+  { "name": "Undertow", "category": "Web Server", "color": "#B32017",
+    "detect": { "header": [{"name": "server", "pattern": "undertow"}] } },
+  { "name": "unpkg", "category": "CDN", "color": "#4B4B4B",
+    "detect": { "script": ["unpkg\\.com"] } },
+  { "name": "Uploadcare", "category": "Media", "color": "#FFCC00",
+    "detect": { "html": ["ucarecdn\\.com"] } },
+  { "name": "Uppy", "category": "JS Library", "color": "#2275D7",
+    "detect": { "js": ["Uppy"], "html": ["uppy-Dashboard"] } },
+  { "name": "Uvicorn", "category": "Web Server", "color": "#2F4F4F",
+    "detect": { "header": [{"name": "server", "pattern": "uvicorn"}] } }
+]

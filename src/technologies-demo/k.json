@@ -1,0 +1,18 @@
+[
+  { "name": "Kestrel", "category": "Web Server", "color": "#512BD4",
+    "detect": { "header": [{"name": "server", "pattern": "kestrel"}] } },
+  { "name": "KeyCDN", "category": "CDN", "color": "#0098DB",
+    "detect": { "header": [{"name": "server", "pattern": "keycdn"}] } },
+  { "name": "Kinsta", "category": "Hosting", "color": "#5333ED",
+    "detect": { "header": [{"name": "x-kinsta-cache", "pattern": ""}] } },
+  { "name": "Klarna", "category": "Payment", "color": "#FFB3C7",
+    "detect": { "js": ["Klarna"], "script": ["x\\.klarnacdn\\.net"] } },
+  { "name": "Klaviyo", "category": "Marketing", "color": "#6E6E70",
+    "detect": { "js": ["klaviyo", "_learnq"], "script": ["static\\.klaviyo\\.com"] } },
+  { "name": "Klevu", "category": "Search", "color": "#00B5E2",
+    "detect": { "script": ["klevu"] } },
+  { "name": "Knockout.js", "category": "JS Framework", "color": "#CC3F02",
+    "detect": { "script": ["knockout([.-]min)?\\.js"], "html": ["data-bind=\""] } },
+  { "name": "Konva", "category": "JS Library", "color": "#0D83CD",
+    "detect": { "js": ["Konva"] } }
+]

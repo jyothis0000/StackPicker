@@ -1,0 +1,18 @@
+[
+  { "name": "Netlify", "category": "Hosting", "color": "#00C7B7",
+    "detect": { "header": [{"name": "x-nf-request-id", "pattern": ""}, {"name": "server", "pattern": "netlify"}] } },
+  { "name": "New Relic", "category": "Dev Tools", "color": "#00AC69",
+    "detect": { "js": ["newrelic", "NREUM"], "script": ["js-agent\\.newrelic\\.com"] } },
+  { "name": "Next.js", "category": "JS Framework", "color": "#0070F3",
+    "detect": { "js": ["__NEXT_DATA__", "__next_f"], "script": ["/_next/static"], "html": ["id=\"__NEXT_DATA__\"", "/_next/image\\?"], "header": [{"name": "x-powered-by", "pattern": "next\\.js"}] } },
+  { "name": "Nginx", "category": "Web Server", "color": "#009639",
+    "detect": { "header": [{"name": "server", "pattern": "nginx"}] } },
+  { "name": "Node.js", "category": "Backend Language", "color": "#5FA04E",
+    "detect": { "header": [{"name": "x-powered-by", "pattern": "node"}] } },
+  { "name": "nopCommerce", "category": "E-Commerce", "color": "#4B8DF8",
+    "detect": { "meta": [{"name": "generator", "content": "nopCommerce"}], "html": ["nopCommerce"] } },
+  { "name": "Normalize.css", "category": "UI / CSS", "color": "#8B8B8B",
+    "detect": { "html": ["normalize([.-]min)?\\.css"] } },
+  { "name": "Nuxt", "category": "JS Framework", "color": "#00DC82",
+    "detect": { "js": ["__NUXT__", "$nuxt", "__unctx__"], "script": ["/_nuxt/"], "html": ["id=\"__nuxt\""], "header": [{"name": "x-powered-by", "pattern": "nuxt"}] } }
+]
