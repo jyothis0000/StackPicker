@@ -60,8 +60,11 @@ function render(result) {
     groups.get(t.category).push(t)
   }
 
+  // A category missing from CATEGORY_ORDER must sort after the known ones, not
+  // before — indexOf's -1 would otherwise put an unlisted category first.
+  const rank = c => { const i = CATEGORY_ORDER.indexOf(c); return i === -1 ? Infinity : i }
   const sorted = [...groups].sort(
-    (a, b) => CATEGORY_ORDER.indexOf(a[0]) - CATEGORY_ORDER.indexOf(b[0])
+    (a, b) => rank(a[0]) - rank(b[0]) || a[0].localeCompare(b[0])
   )
 
   for (const [category, items] of sorted) {

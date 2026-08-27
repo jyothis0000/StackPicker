@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "StackPicker",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "See the tech stack behind any website — frameworks, CMS, servers, CDNs — in one click.",
   "icons": {
     "16": "icon16.png",
@@ -19,6 +19,9 @@
       "128": "icon128.png"
     }
   },
-  "permissions": ["activeTab", "scripting"],
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
   "minimum_chrome_version": "102"
 }

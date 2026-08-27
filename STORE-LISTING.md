@@ -26,7 +26,7 @@ See the tech stack behind any website: frameworks, CMS, servers, CDNs and 400+ m
 ```
 StackPicker tells you what any website is built with. Click the icon and it
 reports the frameworks, CMS, e-commerce platform, analytics, web server, CDN
-and hosting behind the page you are on — over 400 technologies in all.
+and hosting behind the page you are on — over 3,500 technologies in all.
 
 WHAT IT DETECTS
 
@@ -55,8 +55,19 @@ servers. Everything is analysed locally in your browser and discarded the
 moment you close the popup. Nothing about the pages you visit ever leaves
 your machine.
 
-Free and open source.
+Free and open source (GPL-3.0). Source: https://github.com/jyothis0000/StackPicker
 ```
+
+> **GPL-3.0 obligation, not a preference.** The technology database bundles
+> data derived from the GPL-3.0-licensed [webappanalyzer](https://github.com/enthec/webappanalyzer)
+> project (see [NOTICE.md](NOTICE.md)), which means StackPicker as a whole
+> must be distributed under GPL-3.0 — including making the corresponding
+> source available to anyone who receives the extension. Before publishing,
+> push this repo (with [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md) intact)
+> to a public URL and put that URL in the description above and in the
+> listing's homepage/support link fields. Do not publish the packaged
+> extension without a public source link — that's the specific condition
+> GPL-3.0 imposes here.
 
 **Support email** (shown on the listing, and the address users write to)
 
@@ -124,8 +135,11 @@ is never written to storage or sent anywhere.
 - I do not use or transfer user data for purposes that are unrelated to my item's single purpose
 - I do not use or transfer user data to determine creditworthiness or for lending purposes
 
-**Privacy policy URL:** host `PRIVACY.md` (GitHub Pages, or the repo's raw file)
-and paste the link here.
+**Privacy policy URL:**
+
+```
+https://github.com/jyothis0000/StackPicker/blob/master/PRIVACY.md
+```
 
 ---
 

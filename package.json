@@ -1,12 +1,13 @@
 {
   "name": "stackpicker",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Detect the tech stack of any website",
+  "license": "GPL-3.0-or-later",
   "scripts": {
     "dev": "vite build --watch",
     "build": "vite build",
     "test": "node test-detect.mjs",
-    "package": "npm run build && cd dist && powershell -NoProfile -Command \"Compress-Archive -Path * -DestinationPath ../stackpicker-$(node -p \\\"require('../package.json').version\\\").zip -Force\""
+    "package": "npm run build && node -e \"require('fs').copyFileSync('LICENSE','dist/LICENSE'); require('fs').copyFileSync('NOTICE.md','dist/NOTICE.md')\" && cd dist && powershell -NoProfile -Command \"Compress-Archive -Path * -DestinationPath ../stackpicker-$(node -p \\\"require('../package.json').version\\\").zip -Force\""
   },
   "devDependencies": {
     "@crxjs/vite-plugin": "^2.0.0-beta.23",

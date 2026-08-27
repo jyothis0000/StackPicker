@@ -52,8 +52,9 @@ export async function detectInPage(fps) {
       }) ||
       (d.meta || []).some(m => {
         const key = m.name.toLowerCase()
-        // empty content = presence of the tag is enough
-        return m.content ? (metas[key] || '').includes(m.content.toLowerCase()) : key in metas
+        // empty content = presence of the tag is enough. Regex, not substring: many
+        // imported patterns are real regexes (e.g. "^AsciiDoc ([\d.]+)"), not literal text.
+        return m.content ? new RegExp(m.content, 'i').test(metas[key] || '') : key in metas
       }) ||
       (d.html || []).some(p => new RegExp(p, 'i').test(html)) ||
       (d.cookie || []).some(c => cookies.includes(c))
