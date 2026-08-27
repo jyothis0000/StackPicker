@@ -79,8 +79,24 @@ function render(result) {
       const li = document.createElement('li')
       li.style.setProperty('--tech', t.color)
 
-      const dot = document.createElement('span')
-      dot.className = 'dot'
+      // A real logo when we bundled one for this technology, the color dot otherwise —
+      // never both, and never a broken-image icon if a bundled file turns out bad.
+      let mark
+      if (t.icon) {
+        mark = document.createElement('img')
+        mark.className = 'icon'
+        mark.alt = ''
+        mark.loading = 'lazy'
+        mark.src = chrome.runtime.getURL(`tech-icons/${encodeURIComponent(t.icon)}`)
+        mark.onerror = () => {
+          const dot = document.createElement('span')
+          dot.className = 'dot'
+          mark.replaceWith(dot)
+        }
+      } else {
+        mark = document.createElement('span')
+        mark.className = 'dot'
+      }
 
       // Link out to the technology's own site when we have one. `website` comes from
       // our bundled fingerprint data, not the page, but still gate on http(s) — cheap
@@ -95,7 +111,7 @@ function render(result) {
         name.rel = 'noopener noreferrer'
       }
 
-      li.append(dot, name)
+      li.append(mark, name)
       ul.append(li)
     }
     section.append(ul)

@@ -59,5 +59,5 @@ export async function detectInPage(fps) {
       (d.html || []).some(p => new RegExp(p, 'i').test(html)) ||
       (d.cookie || []).some(c => cookies.includes(c))
     )
-    .map(({ name, category, color, website }) => ({ name, category, color, website }))
+    .map(({ name, category, color, website, icon }) => ({ name, category, color, website, icon }))
 }

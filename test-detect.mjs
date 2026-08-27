@@ -122,8 +122,14 @@ for (const f of files) {
   }
 }
 
+// Every icon referenced from the data actually exists as a bundled file — a typo or
+// a stale reference here would silently fall back to the color dot for that entry.
+const ICONS_DIR = './public/tech-icons'
+const iconFiles = new Set(readdirSync(ICONS_DIR))
+
 // Every regex in the data files compiles, and every entry is detectable at all.
 let withWebsite = 0
+let withIcon = 0
 for (const fp of fingerprints) {
   const { script = [], html = [], prop = [], header = [] } = fp.detect
   for (const p of [...script, ...html, ...prop]) new RegExp(p, 'i')
@@ -134,12 +140,18 @@ for (const fp of fingerprints) {
     assert.match(fp.website, /^https?:\/\//, `${fp.name} has a bad website URL: ${fp.website}`)
     withWebsite++
   }
+  if (fp.icon !== undefined) {
+    assert.ok(iconFiles.has(fp.icon), `${fp.name} references icon "${fp.icon}", not found in ${ICONS_DIR}`)
+    withIcon++
+  }
 }
 assert.ok(withWebsite / fingerprints.length > 0.9, 'most technologies should link out to their site')
+assert.ok(withIcon / fingerprints.length > 0.9, 'most technologies should have a logo')
 
-// detectInPage must carry `website` through to the popup, or every link silently vanishes.
+// detectInPage must carry `website` and `icon` through to the popup, or they silently vanish.
 fakePage({ metas: { generator: 'Astro v4' } })
 const [astro] = await detectInPage(fingerprints)
 assert.ok(astro && 'website' in astro, 'detectInPage must pass the website field through to the popup')
+assert.ok(astro && 'icon' in astro, 'detectInPage must pass the icon field through to the popup')
 
 console.log(`ok — ${fingerprints.length} technologies in ${files.length} files, all checks passed`)
