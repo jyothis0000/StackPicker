@@ -82,9 +82,18 @@ function render(result) {
       const dot = document.createElement('span')
       dot.className = 'dot'
 
-      const name = document.createElement('span')
+      // Link out to the technology's own site when we have one. `website` comes from
+      // our bundled fingerprint data, not the page, but still gate on http(s) — cheap
+      // insurance against ever treating a stray value as a clickable href.
+      const canLink = typeof t.website === 'string' && /^https?:\/\//.test(t.website)
+      const name = document.createElement(canLink ? 'a' : 'span')
       name.className = 'name'
       name.textContent = t.name // textContent: names can come from page-controlled meta tags
+      if (canLink) {
+        name.href = t.website
+        name.target = '_blank'
+        name.rel = 'noopener noreferrer'
+      }
 
       li.append(dot, name)
       ul.append(li)

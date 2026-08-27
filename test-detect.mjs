@@ -123,12 +123,23 @@ for (const f of files) {
 }
 
 // Every regex in the data files compiles, and every entry is detectable at all.
+let withWebsite = 0
 for (const fp of fingerprints) {
   const { script = [], html = [], prop = [], header = [] } = fp.detect
   for (const p of [...script, ...html, ...prop]) new RegExp(p, 'i')
   for (const h of header) new RegExp(h.pattern || '', 'i')
   assert.ok(Object.keys(fp.detect).length, `${fp.name} has no detection rules`)
   assert.match(fp.color, /^#[0-9A-Fa-f]{6}$/, `${fp.name} has a bad color`)
+  if (fp.website !== undefined) {
+    assert.match(fp.website, /^https?:\/\//, `${fp.name} has a bad website URL: ${fp.website}`)
+    withWebsite++
+  }
 }
+assert.ok(withWebsite / fingerprints.length > 0.9, 'most technologies should link out to their site')
+
+// detectInPage must carry `website` through to the popup, or every link silently vanishes.
+fakePage({ metas: { generator: 'Astro v4' } })
+const [astro] = await detectInPage(fingerprints)
+assert.ok(astro && 'website' in astro, 'detectInPage must pass the website field through to the popup')
 
 console.log(`ok — ${fingerprints.length} technologies in ${files.length} files, all checks passed`)
