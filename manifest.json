@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "StackPicker",
-  "version": "1.1.0",
-  "description": "See the tech stack behind any website — frameworks, CMS, servers, CDNs — in one click.",
+  "name": "StackPicker - Website Technology & Tech Stack Detector",
+  "short_name": "StackPicker",
+  "version": "1.1.1",
+  "description": "Detect the tech stack of any website in one click: framework, CMS, analytics, web server, CDN and 3,500+ more web technologies.",
   "icons": {
     "16": "icon16.png",
     "32": "icon32.png",

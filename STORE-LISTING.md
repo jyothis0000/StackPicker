@@ -6,17 +6,49 @@ Copy-paste source for the Developer Dashboard. Keep this in sync with `manifest.
 
 ## Store listing tab
 
-**Item name**
+**Item name** (75 char max, this is 54)
 
 ```
-StackPicker — Website Tech Stack Detector
+StackPicker - Website Technology & Tech Stack Detector
 ```
 
-**Short description** (132 char max — this is 118)
+**Short description** (132 char max, this is 127)
 
 ```
-See the tech stack behind any website: frameworks, CMS, servers, CDNs and 400+ more, in one click. No account needed.
+Detect the tech stack of any website in one click: framework, CMS, analytics, web server, CDN and 3,500+ more web technologies.
 ```
+
+> **Both fields come from the uploaded package, not the dashboard.** The store
+> reads the item name from `manifest.json` `name` and the short description
+> from `description`, so change them there and upload a new version. The
+> manifest's `short_name` (`StackPicker`) is what Chrome shows where space is
+> tight, such as the extensions menu.
+
+### Search keywords
+
+The Chrome Web Store has **no keywords field**. Search ranks on, roughly in
+this order: the item name, the short description, the detailed description,
+and then installs, ratings and how recently the item was updated. So the words
+people type have to appear naturally in those three text fields:
+
+- **Name:** "Website", "Technology", "Tech Stack", "Detector". These are the
+  highest-value terms, which is why the name carries them after the brand.
+- **Short description:** "tech stack", "website", "framework", "CMS", "web
+  server", "web technologies".
+- **Detailed description:** the phrases people actually search, written as
+  sentences: "website technology checker", "what is this site built with",
+  "framework detector", "CMS detector".
+
+**There is no way to guarantee a top spot for a query like "web".** It is one
+of the most crowded terms in the store, and placement there mostly follows
+install count and rating. The name now starts its descriptive part with
+"Website", which is the best the text can do. After that, rank grows from
+reviews and installs.
+
+**Don't keyword-stuff.** Repeated words, lists of unrelated keywords, or
+competitor names (Wappalyzer, BuiltWith, WhatRuns) in the listing violate the
+store's [spam policy](https://developer.chrome.com/docs/webstore/program-policies/spam-and-abuse)
+and can get the item rejected or delisted.
 
 **Category:** Developer Tools
 **Language:** English
@@ -27,6 +59,11 @@ See the tech stack behind any website: frameworks, CMS, servers, CDNs and 400+ m
 StackPicker tells you what any website is built with. Click the icon and it
 reports the frameworks, CMS, e-commerce platform, analytics, web server, CDN
 and hosting behind the page you are on — over 3,500 technologies in all.
+
+Use it as a website technology checker whenever you wonder "what is this site
+built with?": a framework detector for developers, a CMS detector for
+designers and agencies, and a quick way for marketers and founders to see which
+web tools a competitor uses.
 
 WHAT IT DETECTS
 
